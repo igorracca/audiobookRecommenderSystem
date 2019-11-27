@@ -1,0 +1,2 @@
+# audiobookRecommendationSystem
+A system that recommends additional audiobooks to each user based on other users reviews.  Supposing that there is an online audiobook store that displays common properties for each audiobook offered for sale. Such properties include the ratings given by previous buyers, a summary, name of the author, narrator, and length. Users can rate audiobooks on a five-point scale.
