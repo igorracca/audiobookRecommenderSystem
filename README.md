@@ -1,13 +1,14 @@
 # Audiobook Recommendation System
 A system that recommends additional audiobooks to each user based on other users reviews.  Supposing that there is an online audiobook store that displays common properties for each audiobook offered for sale. Such properties include the ratings given by previous buyers, a summary, name of the author, narrator, and length. Users can rate audiobooks on a five-point scale.
 
+
 ---
+
 
 ## Introduction
 
 Let us assume, that there is an online audiobook store that displays common properties for each audiobook offered for sale. Such properties include the ratings given by previous buyers, a summary, name of the author, narrator, and length. Users can rate audiobooks on a five-point scale. Based on these reviews, the system recommends additional audiobooks to each user.
 
----
 
 ## Input
 
@@ -28,7 +29,6 @@ The first line of input contains the number of known ratings, users and audioboo
 499 198 4
 
 
-
 ## Output
 
 The output contains the IDs of the top 10 recommended audiobooks for each user,
@@ -47,13 +47,11 @@ In case of the example above, the output contains 500 lines:
 
 ...
 
----
 
 ## Requirements
 
 - Python
 
----
 
 ## Configuration
 
@@ -69,8 +67,6 @@ In case of the example above, the output contains 500 lines:
 
 `TOP = 10`
 
-
----
 
 ## Running
 
