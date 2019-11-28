@@ -6,6 +6,9 @@
 # debug mode
 DEBUG = True
 
+# number of k-similar users 
+K_NEIGHBORS = 2
+
 # defining rating class
 class Rating:
 	def __init__(self, rating, normalized, rated):
@@ -58,7 +61,7 @@ def printSimilarityDebug():
 R, U, A = map(int, input().split())
 
 # initializang ratings matrix
-ratings = [[Rating(0,0, False)]*A for i in range(U)]
+ratings = [[Rating(0,0,False) for j in range(A)] for i in range(U)]
 
 j = 0
 # read inputs
@@ -88,16 +91,13 @@ similarities = [[Similarity(0,0) for j in range(U)] for i in range(U)]
 # compute similarity between users (consine distance)
 for i in range(0, len(ratings)):
 	for k in range(i, len(ratings)):
-		# printDebug('\ncomparing user %s and %s' % (i,k))
 		if(k==i):
-			# dealing with user similarity with himself
+			# dealing with same user-user 
 			similarities[i][k].u = k
 			similarities[i][k].s = -2
-			# print('User %s and %s are equal' % (i,k))
 		else:		
 			num, den1, den2 = 0,0,0
 			for j in range(0, len(ratings[i])):
-				# printDebug('ratings[i:%s][j:%s]:%s ratings[k:%s][j:%s]:%s' % (i,j,ratings[i][j].n,k,j,ratings[k][j].n))
 				# numerator is product of vector I and J 
 				num += ratings[i][j].n * ratings[k][j].n
 				# denominator is summation of square root of squared vector I and J 
@@ -117,8 +117,6 @@ for i in range(0, len(ratings)):
 			# writing similarity for user k to i (same)
 			similarities[k][i].u = i
 			similarities[k][i].s = s
-			# printDebug('Similarity between user %s and %s=%s' % (i,k,s))
-printDebug('')
 
 for userSimilarities in similarities:
 	# removing occurences of same user-user
@@ -128,5 +126,24 @@ for userSimilarities in similarities:
 	
 printSimilarityDebug()
 
+for i in range(len(ratings)):
+	for j in range(len(ratings[i])):
+		if(ratings[i][j].t == False):
+			num, den = 0,0 
+			for k in range(0, K_NEIGHBORS):
+				x = similarities[i][k].u
+				num += similarities[i][k].s * ratings[x][j].r
+				den += similarities[i][k].s
+			if(den != 0):
+				ratings[i][j].r = num/den
+printRatingsDebug()
+
+for userRatings in ratings:
+	# removing occurences of same user-user
+	userRatings[:] = [x for x in userRatings if x.t == False]
+	# sorting by similarity (descending)
+	userRatings.sort(key=lambda x: x.r, reverse=True)
+
+printRatingsDebug()
 
 
