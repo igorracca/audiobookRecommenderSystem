@@ -4,14 +4,18 @@
 ####################################################################################################################
 
 # debug mode
-DEBUG = True
+DEBUG = False
 
 # number of k-similar users 
 K_NEIGHBORS = 2
 
+# number of top audiobooks to be displayed in the output
+TOP = 10
+
 # defining rating class
 class Rating:
-	def __init__(self, rating, normalized, rated):
+	def __init__(self, audiobook, rating, normalized, rated):
+		self.a = audiobook
 		self.r = rating
 		self.n = normalized
 		self.t = rated
@@ -61,7 +65,7 @@ def printSimilarityDebug():
 R, U, A = map(int, input().split())
 
 # initializang ratings matrix
-ratings = [[Rating(0,0,False) for j in range(A)] for i in range(U)]
+ratings = [[Rating(0,0,0,False) for j in range(A)] for i in range(U)]
 
 j = 0
 # read inputs
@@ -71,7 +75,7 @@ for i in range(R):
 	if(u != j):
 		j+=1
 	# printDebug([u,j,a,r])
-	ratings[j][a] = Rating(r,0, True)
+	ratings[j][a] = Rating(a, r, 0, True)
 printRatingsDebug()
 
 # normalize ratings
@@ -136,6 +140,7 @@ for i in range(len(ratings)):
 				den += similarities[i][k].s
 			if(den != 0):
 				ratings[i][j].r = num/den
+			ratings[i][j].a = j
 printRatingsDebug()
 
 for userRatings in ratings:
@@ -143,7 +148,14 @@ for userRatings in ratings:
 	userRatings[:] = [x for x in userRatings if x.t == False]
 	# sorting by similarity (descending)
 	userRatings.sort(key=lambda x: x.r, reverse=True)
-
 printRatingsDebug()
 
-
+# print top10 audiobook recommendation per user
+for i in range(0, len(ratings)):
+	for j in range(0, TOP):
+		if(j<TOP-1):
+			print('%s' % (ratings[i][j].a), end = '\t')
+		else:
+			print('%s' % (ratings[i][j].a), end = '')
+	if(i<len(ratings)-1):
+		print()
